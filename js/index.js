@@ -20,9 +20,8 @@
       aboutMenuItem = require('./js/menu-items/about'),
       quitMenuItem = require('./js/menu-items/quit'),
       separatorBelowPreferencesMenuItem =
-        require('./js/menu-items/separator_below_preferences'),
-      separatorBelowAboutMenuItem =
-        require('./js/menu-items/separator_below_about');
+        new gui.MenuItem({ type: 'separator' }),
+      separatorBelowAboutMenuItem = new gui.MenuItem({ type: 'separator' });
 
   var timer = new Timer(window);
 

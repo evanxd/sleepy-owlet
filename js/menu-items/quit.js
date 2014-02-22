@@ -4,7 +4,7 @@ var gui = nwrequire('nw.gui');
 var quitMenuItem = new gui.MenuItem({ label: 'Quit' });
 
 quitMenuItem.on('click', function() {
-  console.log('quit');
+  gui.App.quit();
 });
 
 module.exports = quitMenuItem;
