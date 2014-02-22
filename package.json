@@ -1,8 +1,13 @@
 {
-  "name": "Sleepy Owlet",
+  "name": "sleepy-owlet",
+  "version": "0.0.1",
   "main": "index.html",
   "window": {
     "toolbar": false,
     "show": false
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-node-webkit-builder": "~0.1.17"
   }
 }

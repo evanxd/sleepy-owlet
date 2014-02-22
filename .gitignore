@@ -1,4 +1,6 @@
-*.swp
 *.nw
-node_modules
-ext
+*.swp
+
+/ext/
+/node_modules/
+/nw-builds/
