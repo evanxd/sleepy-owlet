@@ -8,4 +8,4 @@ clean:
 .PHONY: build
 build:
 	mkdir -p ext
-	zip -x \*.swp ext -r ext/sleep-owlet.nw *
+	zip -x \*.swp ext -r ext/sleepy-owlet.nw *
