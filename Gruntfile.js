@@ -10,7 +10,7 @@ module.exports = function(grunt) {
           linux32: false,
           linux64: false
       },
-      src: ['./**/*']
+      src: ['./index.html', './package.json', './js/**/*']
     }
   });
 
