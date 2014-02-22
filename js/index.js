@@ -12,7 +12,8 @@
   global.nwrequire = require;
 
   // Define Native UI.
-  var tray = new gui.Tray({ title: 'Owlet' }),
+  var win = null,
+      tray = new gui.Tray({ title: 'Owlet' }),
       menu = new gui.Menu(),
       preferencesMenuItem = require('./js/menu-items/preferences'),
       feedbackMenuItem = require('./js/menu-items/feedback'),
@@ -37,11 +38,22 @@
   doWorkAndRestCycle(doWorkAndRestCycle);
   function doWorkAndRestCycle(recursiveCallback) {
     timer.setupWorkTimer(function() {
-      console.log('Hi dear, you should take a rest.');
+      if (!win) {
+        // XXX: node-webkit issue:
+        // We need to do { 'toolbar': false } to enter kiosk mode, or crash.
+        win = gui.Window.open('http://www.mozilla.org', {
+          'toolbar': false
+        });
+      }
+      // Notice users to take a rest.
+      win.show();
+      win.enterKioskMode();
       timer.clearWorkTimer();
 
       timer.setupRestTimer(function() {
-        console.log('Hi dear, go back to work, cheer!');
+        // Could go back to work.
+        win.leaveKioskMode();
+        win.hide();
         timer.clearRestTimer();
         // Do work and rest cycle again and again.
         recursiveCallback(recursiveCallback);
