@@ -8,40 +8,29 @@
   var gui = require('nw.gui'),
       Timer = require('./js/timer');
 
+  // to solve context problems
+  global.nwrequire = require;
+
   // Define Native UI.
   var tray = new gui.Tray({ title: 'Owlet' }),
       menu = new gui.Menu(),
-      preferences = new gui.MenuItem({ label: 'Preferences' }),
-      separatorBelowPreferences = new gui.MenuItem({ type: 'separator' }),
-      sendFeedback = new gui.MenuItem({ label: 'Send Feedback' }),
-      about = new gui.MenuItem({ label: 'About' }),
-      separatorBelowAbout = new gui.MenuItem({ type: 'separator' }),
-      quit = new gui.MenuItem({ label: 'Quit' });
+      preferencesMenuItem = require('./js/menu-items/preferences'),
+      feedbackMenuItem = require('./js/menu-items/feedback'),
+      aboutMenuItem = require('./js/menu-items/about'),
+      quitMenuItem = require('./js/menu-items/quit'),
+      separatorBelowPreferencesMenuItem =
+        require('./js/menu-items/separator_below_preferences'),
+      separatorBelowAboutMenuItem =
+        require('./js/menu-items/separator_below_about');
 
   var timer = new Timer(window);
 
-  preferences.on('click', function() {
-    console.log('preferences');
-  });
-
-  sendFeedback.on('click', function() {
-    console.log('sendFeedback');
-  });
-
-  about.on('click', function() {
-    console.log('about');
-  });
-
-  quit.on('click', function() {
-    console.log('quit');
-  });
-
-  menu.append(preferences);
-  menu.append(separatorBelowPreferences);
-  menu.append(sendFeedback);
-  menu.append(about);
-  menu.append(separatorBelowAbout);
-  menu.append(quit);
+  menu.append(preferencesMenuItem);
+  menu.append(separatorBelowPreferencesMenuItem);
+  menu.append(feedbackMenuItem);
+  menu.append(aboutMenuItem);
+  menu.append(separatorBelowAboutMenuItem);
+  menu.append(quitMenuItem);
   tray.menu = menu;
 
   // XXX: Workaround to repeat the work and rest cycle.
