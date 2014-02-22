@@ -1,9 +1,13 @@
+'use strict';
+
 /**
  * Main function.
  */
 (function() {
   // Lode modules.
-  var gui = require('nw.gui');
+  var gui = require('nw.gui'),
+      Timer = require('./js/timer');
+
   // Define Native UI.
   var tray = new gui.Tray({ title: 'Owlet' }),
       menu = new gui.Menu(),
@@ -13,6 +17,8 @@
       about = new gui.MenuItem({ label: 'About' }),
       separatorBelowAbout = new gui.MenuItem({ type: 'separator' }),
       quit = new gui.MenuItem({ label: 'Quit' });
+
+  var timer = new Timer(window);
 
   preferences.on('click', function() {
     console.log('preferences');
@@ -37,4 +43,20 @@
   menu.append(separatorBelowAbout);
   menu.append(quit);
   tray.menu = menu;
+
+  // XXX: Workaround to repeat the work and rest cycle.
+  doWorkAndRestCycle(doWorkAndRestCycle);
+  function doWorkAndRestCycle(recursiveCallback) {
+    timer.setupWorkTimer(function() {
+      console.log('Hi dear, you should take a rest.');
+      timer.clearWorkTimer();
+
+      timer.setupRestTimer(function() {
+        console.log('Hi dear, go back to work, cheer!');
+        timer.clearRestTimer();
+        // Do work and rest cycle again and again.
+        recursiveCallback(recursiveCallback);
+      });
+    });
+  }
 })();
