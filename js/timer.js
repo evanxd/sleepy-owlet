@@ -1,7 +1,7 @@
 'use strict';
 
-var DEFAULT_WORK_TIME = 10000,
-      DEFAULT_REST_TIME = 5000;
+var DEFAULT_WORK_TIME = 3600000,
+    DEFAULT_REST_TIME = 600000;
 
 var workTime = 0,
     restTime = 0,
