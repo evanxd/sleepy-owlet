@@ -1,5 +1,9 @@
 'use strict';
 
+// Avoid being collected by GC,
+// or after some time and icon will disappear
+var systemTray = null;
+
 /**
  * Main function.
  */
@@ -13,7 +17,6 @@
 
   // Define Native UI.
   var win = null,
-      tray = new gui.Tray({ title: 'Owlet' }),
       menu = new gui.Menu(),
       preferencesMenuItem = require('./js/menu-items/preferences'),
       feedbackMenuItem = require('./js/menu-items/feedback'),
@@ -22,6 +25,8 @@
       separatorBelowPreferencesMenuItem =
         new gui.MenuItem({ type: 'separator' }),
       separatorBelowAboutMenuItem = new gui.MenuItem({ type: 'separator' });
+  // It is a global variable, because of GC issue.
+  systemTray = new gui.Tray({ title: 'Owlet' });
 
   var timer = new Timer(window);
 
@@ -31,7 +36,7 @@
   menu.append(aboutMenuItem);
   menu.append(separatorBelowAboutMenuItem);
   menu.append(quitMenuItem);
-  tray.menu = menu;
+  systemTray.menu = menu;
 
   // XXX: Workaround to repeat the work and rest cycle.
   doWorkAndRestCycle(doWorkAndRestCycle);
