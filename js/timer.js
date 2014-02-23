@@ -32,6 +32,11 @@ var Timer = function(window) {
 
 Timer.prototype = {
   /**
+   * The timing of starting the work.
+   */
+  startWorkTime: null,
+
+  /**
    * Config work and rest time and reset the timers.
    *
    * @param {Object} config A config JSON object,
@@ -62,6 +67,7 @@ Timer.prototype = {
    */
   setupWorkTimer: function(callback) {
     if (callback && typeof callback === 'function') {
+      this.startWorkTime = new Date();
       workTimerCallback = callback;
       workTimer = setInterval(workTimerCallback, workTime);
     }
@@ -91,6 +97,15 @@ Timer.prototype = {
    */
   clearRestTimer: function() {
     clearInterval(restTimer);
+  },
+
+  /**
+   * Get remaining time of the work timer.
+   *
+   * @return {Number} milliseconds.
+   */
+  getRemainingTime: function() {
+    return workTime - (new Date() - this.startWorkTime);
   }
 };
 

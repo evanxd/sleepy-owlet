@@ -8,12 +8,15 @@ var systemTray = null;
  * Main function.
  */
 (function() {
-  // Lode modules.
-  var gui = require('nw.gui'),
-      Timer = require('./js/timer');
-
   // to solve context problems
   global.nwrequire = require;
+
+  // Lode modules.
+  var gui = require('nw.gui'),
+      moment = require('moment'),
+      Timer = require('./js/timer');
+
+  var TIME_TO_SHOW_TIMER = 300000;
 
   // Define Native UI.
   var win = null,
@@ -41,6 +44,8 @@ var systemTray = null;
   // XXX: Workaround to repeat the work and rest cycle.
   doWorkAndRestCycle(doWorkAndRestCycle);
   function doWorkAndRestCycle(recursiveCallback) {
+    systemTray.title = 'Owlet';
+
     timer.setupWorkTimer(function() {
       if (!win) {
         // XXX: node-webkit issue:
@@ -63,5 +68,15 @@ var systemTray = null;
         recursiveCallback(recursiveCallback);
       });
     });
+  }
+
+  // XXX: Bad code to show remaining time on system tray.
+  showRemainingTime();
+  function showRemainingTime() {
+    var remainingTime = timer.getRemainingTime();
+    if (remainingTime >= 0 && remainingTime <= TIME_TO_SHOW_TIMER) {
+      systemTray.title = moment(remainingTime).format('mm:ss');
+    }
+    setTimeout(showRemainingTime, 1000);
   }
 })();

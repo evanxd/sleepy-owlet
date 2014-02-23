@@ -6,6 +6,9 @@
     "toolbar": false,
     "show": false
   },
+  "dependencies": {
+    "moment": "~2.5.1"
+  },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-node-webkit-builder": "~0.1.17"
